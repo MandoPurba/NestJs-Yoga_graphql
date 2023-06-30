@@ -1,0 +1,124 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Profile {
+  createdBy: String
+  createdAt: DateTime
+  updatedBy: String
+  updatedAt: DateTime
+  deletedBy: String
+  deletedAt: DateTime
+
+  """ID"""
+  id: ID
+
+  """First Name"""
+  firstName: String
+
+  """Last Name"""
+  lastName: String
+
+  """Gender"""
+  gender: String
+  user: UserEntity
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserEntity {
+  createdBy: String
+  createdAt: DateTime
+  updatedBy: String
+  updatedAt: DateTime
+  deletedBy: String
+  deletedAt: DateTime
+
+  """ID"""
+  id: ID
+  email: String
+  role: String
+  profile: Profile
+}
+
+type Query {
+  users: [UserEntity!]!
+  user(id: String!): UserEntity!
+  profiles: [Profile!]!
+  profile: Profile!
+}
+
+type Mutation {
+  signUp(payload: AuthDto!): Boolean!
+  signIn(payload: AuthDto!): String!
+  createUsers(users: [CreateUserInput!]!): String!
+  createUser(user: CreateUserInput!): UserEntity!
+  updateUser(updateUserInput: UpdateUserInput!): UserEntity!
+  removeUser(id: String!): UserEntity!
+  createProfile(payload: CreateProfileInput!): Profile!
+  updateProfile(updateProfileInput: UpdateProfileInput!): Profile!
+  removeProfile: Profile!
+}
+
+input AuthDto {
+  email: String!
+  password: String!
+}
+
+input CreateUserInput {
+  """Email"""
+  email: String!
+
+  """password"""
+  password: String!
+
+  """role"""
+  role: Role!
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+input UpdateUserInput {
+  """Email"""
+  email: String
+
+  """password"""
+  password: String
+
+  """role"""
+  role: Role
+  id: String!
+}
+
+input CreateProfileInput {
+  """First Name"""
+  firstName: String!
+
+  """Last Name"""
+  lastName: String!
+
+  """Gender"""
+  gender: Gender!
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+input UpdateProfileInput {
+  """First Name"""
+  firstName: String
+
+  """Last Name"""
+  lastName: String
+
+  """Gender"""
+  gender: Gender
+}

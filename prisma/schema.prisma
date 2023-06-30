@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  role     Role     @default(USER)
+  Profile  Profile?
+
+  createdBy String?   @map("created_by")
+  createdAt DateTime? @map("creatted_at")
+  updatedBy String?   @map("updated_by")
+  updatedAt DateTime? @map("updated_at")
+  deletedBy String?   @map("deleted_by")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("users")
+}
+
+model Profile {
+  id        Int    @id @default(autoincrement())
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String @unique @map("user_id")
+  firstName String @map("first_name")
+  lastName  String @map("last_name")
+  gender    Gender
+  profil    String @default("default.jpg")
+
+  createdBy String?   @map("created_by")
+  createdAt DateTime? @map("creatted_at")
+  updatedBy String?   @map("updated_by")
+  updatedAt DateTime? @map("updated_at")
+  deletedBy String?   @map("deleted_by")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("profiles")
+}
